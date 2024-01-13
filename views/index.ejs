@@ -1,26 +1,55 @@
-<%- include('partials/header.ejs') %>
-    <div class="container-sm"
-        style="border-radius: 30px; background-color:blanchedalmond; padding: max(30px,1%); padding-bottom: max(30px,2%); padding-top:max(30px,2%); max-width: 540px; margin-top: 50px; margin-bottom: 50px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-        <h1>
-            <%= type %>
-        </h1>
-        <% if (locals.list) { %>
-            <% for( let i in list ) { %>
-                <form action="/delete" method="post">
+<%- include('partials/header.ejs'); -%>
+    <div class="horizontal">
+        <!-- <div style="width: 50%;" class="sidebar">
+            <h1>
+                Welcome to your to do list application
+            </h1>
+        </div> -->
+        <div class="container-thing">
+            <div class="container-sm"
+                style="border-radius: 30px; background-color:blanchedalmond; padding: max(30px,1%); padding-bottom: max(30px,2%); padding-top:max(30px,2%); max-width: 540px; margin-top: 50px; margin-bottom: 50px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <h1>
+                    Tasks
+                </h1>
+                <% for(let item of listItems){%>
                     <div class="separate-div sep">
-                        <input type="checkbox" name="checkbox" onChange="this.form.submit()" value="<%= list[i]._id %>">
-                        <label class="text">
-                            <%= list[i].task %>
-                        </label>
-                    </div>
-                    <input type="hidden" name="hidden" value="<%= type %>">
-                </form>
-                <% } %>
-                    <% } %>
-                        <form class="form-outline my-2 my-md-0" action="/" method="POST">
-                            <input class="form-control" type="text" name="input" placeholder="Enter task">
-                            <button type="submit" class="btn btn-dark" name="something" value="<%= type %>"><i
-                                    class="fa fa-check"></i>Submit</button>
+                        <form action="/delete" method="post">
+                            <input type="checkbox" onchange="this.form.submit()" name="deleteItemId"
+                                value="<%= item.id %>" class="text">
+                            <p id="title<%=item.id%>" class="text">
+                                <%= item.title %>
+                            </p>
                         </form>
+                        <form class="edit" action="/edit" method="post">
+                            <input type="hidden" name="updatedItemId" value="<%= item.id %>">
+                            <input id="input<%=item.id%>" type="text" name="updatedItemTitle" value="<%= item.title %>"
+                                autocomplete="off" autofocus="true" hidden="true" />
+                            <button id="done<%=item.id%>" class="edit" type="submit" hidden><img class="icon"
+                                    src="/assets/icons/check-solid.svg" alt="tick image"></button>
+                        </form>
+                        <button id="edit<%=item.id%>" class="edit" onclick="handler('<%=item.id%>')"><img class="icon"
+                                src="/assets/icons/pencil-solid.svg" alt="pencil image"></button>
+                    </div>
+                    <% } %>
+            </div>
+            <div class="container-sm"
+                style="border-radius: 30px; background-color:blanchedalmond; padding: max(30px,1%); padding-bottom: max(30px,2%); padding-top:max(30px,2%); max-width: 540px; margin-top: 50px; margin-bottom: 50px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                <form class="item form-outline my-2 my-md-0" action="/add" method="post">
+                    <input type="text" name="newItem" placeholder="Enter task" class="form-control" autocomplete="off"
+                        autofocus="true" />
+                    <button class="add btn btn-dark" type="submit" name="list" value=<%=listTitle %>
+                        >Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <%- include('partials/footer.ejs') %>
+
+    <script>
+        function handler(id) {
+            document.getElementById("title" + id).setAttribute("hidden", true)
+            document.getElementById("edit" + id).setAttribute("hidden", true)
+            document.getElementById("done" + id).removeAttribute("hidden")
+            document.getElementById("input" + id).removeAttribute("hidden")
+        }
+    </script>
+    <%- include('partials/footer.ejs'); -%>

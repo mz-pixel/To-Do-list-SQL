@@ -116,3 +116,31 @@ input[type="text"]:focus {
 button {
   width: 20%;
 }
+.icon {
+  height: 20px;
+}
+button.edit {
+  margin-left: 0px;
+  margin-right: 20px;
+  border: none;
+  background: none;
+  width: 15px;
+}
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+.sidebar {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.container-thing {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
